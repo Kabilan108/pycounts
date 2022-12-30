@@ -58,8 +58,8 @@ jobs:
 
   # Deploy job
   deploy:
-    # Depends on the build job
-    needs: build
+    # Depends on the docs job
+    needs: docs
 
     # Grant GITHUB_TOKEN the permissions required to make a Pages deployment
     permissions:
