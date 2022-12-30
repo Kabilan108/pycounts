@@ -10,7 +10,7 @@ jobs:
           python-version: '3.10'
       - name: Install dependencies
         run: |
-          pip install shinx shinx_rtd_theme
+          pip install sphinx sphinx_rtd_theme
       - name: Sphinx build
         run: |
           sphinx-build docs docs/_build
