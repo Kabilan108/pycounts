@@ -5,6 +5,7 @@ description = "Calculate word counts in a text file!"
 authors = ["Tony Kabilan Okeke"]
 license = "MIT"
 readme = "README.md"
+include = ["LICENSE", "README.md", "CHANGELOG.md"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
