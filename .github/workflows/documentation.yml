@@ -31,16 +31,16 @@ jobs:
     # Build documentation
     - name: Build documentation
       run: |
-        mkdir gh-pages
-        touch gh-pages/.nojekyll
+        mkdir doc
+        touch doc/.nojekyll
         cd docs/
         poetry run sphinx-build -b html . _build
-        cp -r _build/* ../gh-pages/
+        cp -r _build/* ../doc/
 
-    # Deploy to gh-pages branch
+    # Deploy to doc branch
     - name: Deploy documentation
       if: ${{ github.event_name == 'push' }}
       uses: JamesIves/github-pages-deploy-action@4.1.4
       with:
-        branch: gh-pages
-        folder: gh-pages
+        branch: doc
+        folder: doc
