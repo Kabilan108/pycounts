@@ -1,7 +1,6 @@
 name: Docs2Pages
 on:
-  push:
-    tags: '*'
+  push
   pull_request:
     branches:
       - master
