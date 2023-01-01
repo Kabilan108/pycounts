@@ -1,24 +1,30 @@
 from pycounts_k108 import count_words, plot_words
+from pycounts_k108.datasets import get_flatland
 from collections import Counter
 from matplotlib import container
 import pytest
 
-def test_count_words():
+
+# Add a fixture to get the einstein counts
+# this will help avoid repitition in the tests
+@pytest.fixture
+def einstein_counts():
+    return Counter({'insanity': 1, 'is': 1, 'doing': 1, 
+                    'the': 1, 'same': 1, 'thing': 1, 
+                    'over': 2, 'and': 2, 'expecting': 1,
+                    'different': 1, 'results': 1})
+
+
+def test_count_words(einstein_counts):
     """Test word counting from a file."""
-    expected = Counter({'insanity': 1, 'is': 1, 'doing': 1, 
-                        'the': 1, 'same': 1, 'thing': 1, 
-                        'over': 2, 'and': 2, 'expecting': 1,
-                        'different': 1, 'results': 1})
+    expected = einstein_counts
     actual = count_words("tests/einstein.txt")
     assert actual == expected, "Einstein quote counted incorrectly!"
 
-def test_plot_words():
+
+def test_plot_words(einstein_counts):
     """Test plotting of word counts"""
-    counts = Counter({'insanity': 1, 'is': 1, 'doing': 1, 
-                      'the': 1, 'same': 1, 'thing': 1, 
-                      'over': 2, 'and': 2, 'expecting': 1,
-                      'different': 1, 'results': 1})
-    fig = plot_words(counts)
+    fig = plot_words(einstein_counts)
     assert isinstance(fig, container.BarContainer), \
            "Wrong plot type"
     assert (len(fig.datavalues) == 10,  # type: ignore
@@ -41,3 +47,14 @@ def test_integration():
     assert (len(fig.datavalues) == 10,  # type: ignore
         "Incorrect number of bars plotted")
     assert max(fig.datavalues) == 2, "Incorrect max count"  # type: ignore
+
+
+def test_regression():
+    """Regression test for Flatland
+    
+    This will check that our code produces consistent results as opposed to
+    checking for correctness.
+    """
+    top_word = count_words(get_flatland()).most_common(1)
+    assert top_word[0][0] == "the", "Most common word is not 'the'"
+    assert top_word[0][1] == 2263, "'the' count has changed"
