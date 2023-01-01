@@ -1,4 +1,5 @@
 from importlib import resources
+import warnings
 
 
 def get_flatland():
@@ -14,6 +15,11 @@ def get_flatland():
     ----------
     .. [1] E. A. Abbott, "Flatland", Seeley & Co., 1884.
     """
+
+    warnings.warn(
+        "This function is deprecated and will be removed in a future version.", 
+        DeprecationWarning
+    )
 
     with resources.path("pycounts_k108.data", "flatland.txt") as f:
         data_file_path = f
