@@ -31,11 +31,19 @@ def test_plot_words(einstein_counts):
            "Incorrect number of bars plotted")
 
 
-def test_plot_words_type():
+# Use a parametrized test to check different types of inputs
+@pytest.mark.parametrize(
+    "obj",
+    [
+        3.141,
+        "test.txt",
+        ["list", "of", "words"]
+    ]
+)
+def test_plot_words_type(obj):
     """Check TypeError raised when Counter is not used"""
     with pytest.raises(TypeError):
-        list_object = ["Pythons", "are", "non", "venomous"]
-        plot_words(list_object)
+        plot_words(obj)
 
 
 def test_integration():
