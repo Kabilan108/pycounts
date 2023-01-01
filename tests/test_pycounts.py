@@ -1,6 +1,7 @@
 from pycounts_k108 import count_words, plot_words
 from collections import Counter
 from matplotlib import container
+import pytest
 
 def test_count_words():
     """Test word counting from a file."""
@@ -22,3 +23,21 @@ def test_plot_words():
            "Wrong plot type"
     assert (len(fig.datavalues) == 10,  # type: ignore
            "Incorrect number of bars plotted")
+
+
+def test_plot_words_type():
+    """Check TypeError raised when Counter is not used"""
+    with pytest.raises(TypeError):
+        list_object = ["Pythons", "are", "non", "venomous"]
+        plot_words(list_object)
+
+
+def test_integration():
+    """Test count_words() and plot_words() workflow"""
+    counts = count_words("tests/einstein.txt")
+    fig = plot_words(counts)
+    assert isinstance(fig, container.BarContainer), \
+        "Wrong plot type"
+    assert (len(fig.datavalues) == 10,  # type: ignore
+        "Incorrect number of bars plotted")
+    assert max(fig.datavalues) == 2, "Incorrect max count"  # type: ignore
