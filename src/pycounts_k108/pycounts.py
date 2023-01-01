@@ -1,10 +1,11 @@
 from collections import Counter
 from string import punctuation
 
+
 def count_words(input_file):
     """Count words in a text file.
 
-    Words are made lowercase and punctuation is removed 
+    Words are made lowercase and punctuation is removed
     before counting.
 
     Parameters
