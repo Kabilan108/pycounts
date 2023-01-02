@@ -2,6 +2,10 @@
 
 <!--next-version-placeholder-->
 
+## v0.2.1 (2023-01-02)
+### Fix
+* Fix command for installing from TestPyPi ([`9aa67ae`](https://github.com/Kabilan108/pycounts/commit/9aa67ae1ed03a7aced3d573e4166d353c21972fe))
+
 ## v0.2.0 (2023-01-02)
 ### Feature
 * Add caching to CI/CD workflow ([`4d88506`](https://github.com/Kabilan108/pycounts/commit/4d88506879d9e70752c927db7eba8cbca1ad1d73))
