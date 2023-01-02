@@ -1,0 +1,91 @@
+:py:mod:`pycounts_k108`
+=======================
+
+.. py:module:: pycounts_k108
+
+
+Subpackages
+-----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 3
+
+   data/index.rst
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   datasets/index.rst
+   plotting/index.rst
+   pycounts/index.rst
+
+
+Package Contents
+----------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   pycounts_k108.count_words
+   pycounts_k108.plot_words
+
+
+
+Attributes
+~~~~~~~~~~
+
+.. autoapisummary::
+
+   pycounts_k108.__version__
+
+
+.. py:data:: __version__
+   
+
+   
+
+.. py:function:: count_words(input_file)
+
+   Count words in a text file.
+
+   Words are made lowercase and punctuation is removed
+   before counting.
+
+   :param input_file: Path to text file.
+   :type input_file: str
+
+   :returns: dict-like object where keys are words and values are counts.
+   :rtype: collections.Counter
+
+   .. rubric:: Examples
+
+   >>> count_words("text.txt")
+
+
+.. py:function:: plot_words(word_counts, n=10)
+
+   Plot a bar chart of word counts.
+
+   :param word_counts: Counter object of word counts.
+   :type word_counts: collections.Counter
+   :param n: Plot the top n words. By default, 10.
+   :type n: int, optional
+
+   :returns: Bar chart of word counts.
+   :rtype: matplotlib.container.BarContainer
+
+   .. rubric:: Examples
+
+   >>> from pycounts.pycounts import count_words
+   >>> from pycounts.plotting import plot_words
+   >>> counts = count_words("text.txt")
+   >>> plot_words(counts)
+
+
