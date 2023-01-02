@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pycounts_k108"
-version = "0.1.0"
+version = "0.2.0"
 description = "Calculate word counts in a text file!"
 authors = ["Tony Kabilan Okeke"]
 license = "MIT"
