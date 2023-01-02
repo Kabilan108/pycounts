@@ -1,6 +1,0 @@
-:py:mod:`pycounts_k108.data`
-============================
-
-.. py:module:: pycounts_k108.data
-
-
