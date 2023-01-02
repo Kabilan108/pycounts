@@ -9,10 +9,21 @@ import pytest
 # this will help avoid repitition in the tests
 @pytest.fixture
 def einstein_counts():
-    return Counter({'insanity': 1, 'is': 1, 'doing': 1, 
-                    'the': 1, 'same': 1, 'thing': 1, 
-                    'over': 2, 'and': 2, 'expecting': 1,
-                    'different': 1, 'results': 1})
+    return Counter(
+        {
+            "insanity": 1,
+            "is": 1,
+            "doing": 1,
+            "the": 1,
+            "same": 1,
+            "thing": 1,
+            "over": 2,
+            "and": 2,
+            "expecting": 1,
+            "different": 1,
+            "results": 1,
+        }
+    )
 
 
 def test_count_words(einstein_counts):
@@ -25,21 +36,15 @@ def test_count_words(einstein_counts):
 def test_plot_words(einstein_counts):
     """Test plotting of word counts"""
     fig = plot_words(einstein_counts)
-    assert isinstance(fig, container.BarContainer), \
-           "Wrong plot type"
-    assert (len(fig.datavalues) == 10,  # type: ignore
-           "Incorrect number of bars plotted")
+    assert isinstance(fig, container.BarContainer), "Wrong plot type"
+    assert (
+        len(fig.datavalues) == 10,  # type: ignore
+        "Incorrect number of bars plotted",
+    )
 
 
 # Use a parametrized test to check different types of inputs
-@pytest.mark.parametrize(
-    "obj",
-    [
-        3.141,
-        "test.txt",
-        ["list", "of", "words"]
-    ]
-)
+@pytest.mark.parametrize("obj", [3.141, "test.txt", ["list", "of", "words"]])
 def test_plot_words_type(obj):
     """Check TypeError raised when Counter is not used"""
     with pytest.raises(TypeError):
@@ -50,16 +55,17 @@ def test_integration():
     """Test count_words() and plot_words() workflow"""
     counts = count_words("tests/einstein.txt")
     fig = plot_words(counts)
-    assert isinstance(fig, container.BarContainer), \
-        "Wrong plot type"
-    assert (len(fig.datavalues) == 10,  # type: ignore
-        "Incorrect number of bars plotted")
+    assert isinstance(fig, container.BarContainer), "Wrong plot type"
+    assert (
+        len(fig.datavalues) == 10,  # type: ignore
+        "Incorrect number of bars plotted",
+    )
     assert max(fig.datavalues) == 2, "Incorrect max count"  # type: ignore
 
 
 def test_regression():
     """Regression test for Flatland
-    
+
     This will check that our code produces consistent results as opposed to
     checking for correctness.
     """

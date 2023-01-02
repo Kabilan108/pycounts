@@ -17,8 +17,8 @@ def get_flatland():
     """
 
     warnings.warn(
-        "This function is deprecated and will be removed in a future version.", 
-        DeprecationWarning
+        "This function is deprecated and will be removed in a future version.",
+        DeprecationWarning,
     )
 
     with resources.path("pycounts_k108.data", "flatland.txt") as f:
