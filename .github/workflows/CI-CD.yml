@@ -64,6 +64,8 @@ jobs:
     - name: Commit documentation
       if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
       run: |
+        ls -la docs
+        ls -la docs/_build
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
         git checkout pub
