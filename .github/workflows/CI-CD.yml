@@ -51,19 +51,21 @@ jobs:
         fail_ci_if_error: true
 
     # Check code style [only on push to pub]
+    # Check code style [only on push to pub]
     - name: Check code style
       if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
       run: poetry run black --check src/ tests/
 
-    # Build docs and commit to pub branch [only on push to pub]
+    # Build docs and publish to doc branch [only on push to pub]
     - name: Build documentation
       if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
       run: |
         git config user.name "github-actions"
         git config user.email "github-actions@github.com"
-        git checkout pub
-        poetry run sphinx-build -b html docs docs/pages
-        git add docs/pages
+        git checkout docs
+        poetry run sphinx-build -b html doc-build docs/
+        cd pages
+        git add .
         git commit -m "Update documentation"
         git push
 
