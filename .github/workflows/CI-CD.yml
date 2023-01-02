@@ -25,14 +25,16 @@ jobs:
         virtualenvs-create: true
         virtualenvs-in-project: true
 
+    # Set up caching so that dependencies are only installed if they change
     - name: Cache dependencies
       uses: actions/cache@v2
-      id: cache
       with:
-        path: ~/.virtualenvs
-        key: poetry-${{ hashFiles('**/poetry.lock') }}
+        path: |
+          ~/.cache/pypoetry/virtualenvs
+          ~/.cache/pypoetry/cache
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
         restore-keys: |
-          poetry-${{ hashFiles('**/poetry.lock') }}
+          ${{ runner.os }}-poetry-
 
     - name: Install package with dependencies
       if: steps.cache.outputs.cache-hit != 'true'
@@ -87,14 +89,16 @@ jobs:
         virtualenvs-create: true
         virtualenvs-in-project: true
 
+    # Set up caching so that dependencies are only installed if they change
     - name: Cache dependencies
       uses: actions/cache@v2
-      id: cache
       with:
-        path: ~/.virtualenvs
-        key: poetry-${{ hashFiles('**/poetry.lock') }}
+        path: |
+          ~/.cache/pypoetry/virtualenvs
+          ~/.cache/pypoetry/cache
+        key: ${{ runner.os }}-poetry-${{ hashFiles('**/poetry.lock') }}
         restore-keys: |
-          poetry-${{ hashFiles('**/poetry.lock') }}
+          ${{ runner.os }}-poetry-
 
     - name: Install package with dependencies
       if: steps.cache.outputs.cache-hit != 'true'
