@@ -1,0 +1,101 @@
+name: CI-CD
+
+on: [push, pull_request]
+
+jobs:
+
+  ci:
+    # Set up OS
+    runs-on: ubuntu-latest
+
+    # Define job steps
+    steps:
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Install poetry
+      uses: snok/install-poetry@v1
+
+    - name: Install package
+      run: poetry install
+
+    - name: Run tests
+      run: poetry run pytest tests/ --cov=src/ --cov-report=xml
+
+    - name: Use Codecov to track coverage
+      uses: codecov/codecov-action@v2
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: ./coverage.xml
+        fail_ci_if_error: true
+
+    # Check code style only on push to pub
+    - name: Check code style
+      if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
+      run: poetry run black --check src/ tests/
+
+    # Build docs only on push to pub
+    - name: Build documentation
+      if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
+      run: poetry run sphinx-build -b html docs/ docs/_build/
+
+  cd:
+    # Only run this job if the "ci" job passes
+    needs: ci
+
+    # Only run this job on push to pub
+    if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
+
+    # Set up OS
+    runs-on: ubuntu-latest
+
+    # Define job steps
+    steps:
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.10
+
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    # Only continue if changelog.md file has been updated
+    - name: Check changelog
+      run: |
+        git fetch --prune --unshallow
+        git diff --name-only HEAD HEAD~1 | grep -q changelog.md
+
+    - name: Install poetry
+      uses: snok/install-poetry@v1
+
+    - name: Install package
+      run: poetry install
+
+    - name: Build package
+      run: poetry build
+
+    - name: Publish to TestPyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.TEST_PYPI_TOKEN }}
+        repository_url: https://test.pypi.org/legacy/
+
+    - name: Test install from TestPyPi
+      run:
+        pip install \
+          --index-url https://test.pypi.org/simple/ \
+          --extra-index-url https://pypi.org/simple \
+          pycounts_k108
+
+    - name: Publish to PyPI
+      uses: pypa/gh-action-pypi-publish@master
+      with:
+        password: ${{ secrets.PYPI_TOKEN }}
+      
