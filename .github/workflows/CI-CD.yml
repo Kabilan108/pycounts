@@ -60,6 +60,17 @@ jobs:
       if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
       run: poetry run sphinx-build -b html docs/ docs/_build/
 
+    # Commit the _build directory to the pub branch
+    - name: Commit documentation
+      if: github.event_name == 'push' && github.ref == 'refs/heads/pub'
+      run: |
+        git config user.name "github-actions"
+        git config user.email "github-actions@github.com"
+        git checkout pub
+        git add docs/_build
+        git commit -m "Update documentation"
+        git push
+
   cd:
     # Only run this job if the "ci" job passes
     needs: ci
